@@ -257,16 +257,24 @@ namespace Week4DoublyLinkedLists.Applications
         /// </summary>
         public void DisplayPlaylist()
         {
-            // TODO: Step 11 - Implement playlist display
-            // 1. Show playlist name and total song count
-            // 2. If playlist is empty, show appropriate message
-            // 3. Iterate through all songs using foreach (your DoublyLinkedList supports this)
-            // 4. Mark the current song with an indicator (e.g., "► ")
-            // 5. Show position numbers (1-based for user display)
-            // 📖 Assignment Reference: Step 11 in Part B
-            // 💡 Format: "  1. Song Title by Artist (3:45)" or "► 2. Current Song by Artist (4:12)"
-            
-            throw new NotImplementedException("TODO: Step 11 - Implement DisplayPlaylist method");
+            Console.WriteLine($"\n=== Playlist: {Name} ===");
+            Console.WriteLine($"Total songs: {playlist.Count}");
+        
+            if (playlist.Count == 0)
+            {
+                Console.WriteLine("<empty>");
+                return;
+            }
+        
+            int i = 1;
+            var node = playlist.First;
+            while (node != null)
+            {
+                var mark = (currentSong != null && ReferenceEquals(node, currentSong)) ? "► " : "  ";
+                Console.WriteLine($"{mark}{i,2}. {node.Data}");
+                node = node.Next;
+                i++;
+            }
         }
         
         /// <summary>
@@ -275,15 +283,17 @@ namespace Week4DoublyLinkedLists.Applications
         /// </summary>
         public void DisplayCurrentSong()
         {
-            // TODO: Step 11 - Implement current song display
-            // 1. Check if there is a current song selected
-            // 2. If no current song, show appropriate message
-            // 3. If current song exists, show detailed information:
-            //    - Title, Artist, Album, Year, Duration, Genre
-            //    - Current position in playlist (e.g., "Song 3 of 10")
-            // 📖 Assignment Reference: Step 11 in Part B
-            
-            throw new NotImplementedException("TODO: Step 11 - Implement DisplayCurrentSong method");
+            if (currentSong == null)
+            {
+                Console.WriteLine("No current song selected.");
+                return;
+            }
+        
+            var song = currentSong.Data;
+            int pos = GetCurrentPosition();
+            Console.WriteLine("\n=== Now Playing ===");
+            Console.WriteLine(song.ToDetailedString());
+            Console.WriteLine($"Position: {pos} of {playlist.Count}");
         }
         
         /// <summary>
@@ -293,13 +303,7 @@ namespace Week4DoublyLinkedLists.Applications
         /// <returns>Currently selected song, or null if no song selected</returns>
         public Song? GetCurrentSong()
         {
-            // TODO: Step 11 - Implement getting current song
-            // 1. Return the Data from the currentSong node
-            // 2. Return null if no current song is selected
-            // 📖 Assignment Reference: Step 11 in Part B
-            // 💡 This is a simple getter, but important for the playlist interface
-            
-            throw new NotImplementedException("TODO: Step 11 - Implement GetCurrentSong method");
+            return currentSong?.Data;
         }
         
         #endregion

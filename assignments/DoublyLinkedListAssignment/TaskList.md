@@ -68,9 +68,9 @@
 - [x] Navigation: `Next()`, `Previous()`, `JumpToSong(int)`.
 
 **Step 11: UI / Manager**
-- [ ] Implement menu in `MusicPlaylistManager.cs`: show forward/backward, play next/prev, add/remove/jump/clear.
-- [ ] Highlight current track in listing (`►` prefix).
-- [ ] Input validation and prompts.
+- [x] Implement menu in `MusicPlaylistManager.cs`: show forward/backward, play next/prev, add/remove/jump/clear.
+- [x] Highlight current track in listing (`►` prefix).
+- [x] Input validation and prompts.
 
 ## 4) 🔌 Program wiring
 - [ ] In `Program.cs`, add menu to run:  
