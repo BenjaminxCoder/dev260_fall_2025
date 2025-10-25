@@ -36,10 +36,10 @@
 - [x] Tests: forward and backward produce same multiset, reversed order respectively.
 
 **Step 5: Search**
-- [ ] `Contains(T item)`.
-- [ ] `Find(T item)` returns node or `null`.
-- [ ] `IndexOf(T item)` returns index or `-1`.
-- [ ] Tests: hits and misses; duplicates return first index.
+- [x] `Contains(T item)`.
+- [x] `Find(T item)` returns node or `null`.
+- [x] `IndexOf(T item)` returns index or `-1`.
+- [x] Tests: hits and misses; duplicates return first index.
 
 **Step 6: Removal**
 - [ ] `RemoveFirst()` handles empty, single, multi.
