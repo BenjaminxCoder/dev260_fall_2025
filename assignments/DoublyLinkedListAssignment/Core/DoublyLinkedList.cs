@@ -390,13 +390,17 @@ namespace Week4DoublyLinkedLists.Core
         /// </summary>
         public void Clear()
         {
-            // TODO: Step 7a - Implement clear
-            // 1. Set head and tail to null
-            // 2. Set count to 0
-            // Note: In C#, garbage collection will handle memory cleanup
-            // 📖 See: https://docs.microsoft.com/en-us/dotnet/standard/collections/
-            
-            throw new NotImplementedException("TODO: Step 7a - Implement Clear method");
+            // Sever links to help GC
+            for (var c = head; c != null; )
+            {
+                var next = c.Next;
+                c.Previous = null;
+                c.Next = null;
+                c = next;
+            }
+            head = null;
+            tail = null;
+            count = 0;
         }
         
         /// <summary>
@@ -406,20 +410,27 @@ namespace Week4DoublyLinkedLists.Core
         /// </summary>
         public void Reverse()
         {
-            // TODO: Step 7b - Implement reverse
-            // 1. Check if list is empty or has only one element
-            // 2. Traverse the list and swap Next and Previous pointers for each node
-            // 3. Swap head and tail pointers
-            // This is the power of doubly linked lists - easy reversal!
-            // 📖 See: https://www.geeksforgeeks.org/dsa/reverse-a-doubly-linked-list/
-            
-            throw new NotImplementedException("TODO: Step 7b - Implement Reverse method");
+            if (count <= 1) return;
+
+            var cur = head;
+            while (cur != null)
+            {
+                var next = cur.Next;          // save original next
+                cur.Next = cur.Previous;      // swap pointers
+                cur.Previous = next;
+                cur = next;                   // advance along original next
+            }
+
+            // swap head and tail
+            var h = head;
+            head = tail;
+            tail = h;
         }
-        
+
         #endregion
-        
+
         #region Helper Methods - TODO: Students may need these for advanced operations
-        
+
         /// <summary>
         /// Get node at specific index (helper for internal use)
         /// Optimizes traversal by starting from head or tail based on index

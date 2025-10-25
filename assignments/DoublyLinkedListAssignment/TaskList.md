@@ -49,9 +49,9 @@
 - [x] Tests: remove on empty, single, head/mid/tail; verify head/tail integrity.
 
 **Step 7: Advanced (bonus)**
-- [ ] `Reverse()` in-place by swapping `Next`/`Previous`; swap head/tail.
-- [ ] `Clear()` severs all links; sets `head=tail=null`, `count=0`.
-- [ ] Tests: reverse odd/even lengths; clear from non-empty.
+- [x] `Reverse()` in-place by swapping `Next`/`Previous`; swap head/tail.
+- [x] `Clear()` severs all links; sets `head=tail=null`, `count=0`.
+- [x] Tests: reverse odd/even lengths; clear from non-empty.
 
 ## 3) 🎵 Part B — Music Playlist Manager (40 pts)
 
