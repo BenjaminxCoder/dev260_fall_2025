@@ -56,16 +56,16 @@
 ## 3) 🎵 Part B — Music Playlist Manager (40 pts)
 
 **Step 8: Song class**
-- [ ] Implement `Song` with `Title`, `Artist`, `Year`, `Duration`; ctor; `ToString()`.
+- [x] Implement `Song` with `Title`, `Artist`, `Year`, `Duration`; ctor; `ToString()`.
 
 **Step 9: Playlist core**
-- [ ] Create `MusicPlaylist` with `DoublyLinkedList<Song> playlist` and `Node<Song>? currentSong`.
-- [ ] Props: `TotalSongs`, `CurrentSong`, `HasSongs`.
+- [x] Create `MusicPlaylist` with `DoublyLinkedList<Song> playlist` and `Node<Song>? currentSong`.
+- [x] Props: `TotalSongs`, `CurrentSong`, `HasSongs`.
 
 **Step 10: Management**
-- [ ] `AddSong(Song)`, `AddSongAt(int, Song)` maintain current song.
-- [ ] `RemoveSong(Song)`, `RemoveSongAt(int)` update current if needed.
-- [ ] Navigation: `Next()`, `Previous()`, `JumpToSong(int)`.
+- [x] `AddSong(Song)`, `AddSongAt(int, Song)` maintain current song.
+- [x] `RemoveSong(Song)`, `RemoveSongAt(int)` update current if needed.
+- [x] Navigation: `Next()`, `Previous()`, `JumpToSong(int)`.
 
 **Step 11: UI / Manager**
 - [ ] Implement menu in `MusicPlaylistManager.cs`: show forward/backward, play next/prev, add/remove/jump/clear.
