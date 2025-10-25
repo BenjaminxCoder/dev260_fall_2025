@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "labs", "labs", "{908A2AE8-7277-8D33-5900-B70622523C2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoopsAndConditionalsLab", "labs\LoopsAndConditionalsLab\LoopsAndConditionalsLab.csproj", "{21012639-571E-F568-C4AB-2536EADEA1F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21012639-571E-F568-C4AB-2536EADEA1F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21012639-571E-F568-C4AB-2536EADEA1F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21012639-571E-F568-C4AB-2536EADEA1F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21012639-571E-F568-C4AB-2536EADEA1F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{21012639-571E-F568-C4AB-2536EADEA1F6} = {908A2AE8-7277-8D33-5900-B70622523C2F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9D6908F3-5675-4138-93EA-4708130FFDE6}
+	EndGlobalSection
+EndGlobal

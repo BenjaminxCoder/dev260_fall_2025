@@ -1,0 +1,15 @@
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/bin/Debug/net9.0/LoopsAndConditionalsLab
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/bin/Debug/net9.0/LoopsAndConditionalsLab.deps.json
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/bin/Debug/net9.0/LoopsAndConditionalsLab.runtimeconfig.json
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/bin/Debug/net9.0/LoopsAndConditionalsLab.dll
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/bin/Debug/net9.0/LoopsAndConditionalsLab.pdb
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.GeneratedMSBuildEditorConfig.editorconfig
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.AssemblyInfoInputs.cache
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.AssemblyInfo.cs
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.csproj.CoreCompileInputs.cache
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.sourcelink.json
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.dll
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/refint/LoopsAndConditionalsLab.dll
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.pdb
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/LoopsAndConditionalsLab.genruntimeconfig.cache
+/Users/vlad_h04x/dev260_fall_2025/labs/LoopsAndConditionalsLab/obj/Debug/net9.0/ref/LoopsAndConditionalsLab.dll
