@@ -27,13 +27,13 @@
 - [x] `AddFirst(T item)` handles empty and non-empty.
 - [x] `AddLast(T item)` handles empty and non-empty. Add `Add(T)` → `AddLast`.
 - [x] `Insert(int index, T item)` supports `0`, `Count`, and middle inserts. Validate indices.
-- [ ] Tests: add sequences to front/end; insert at 0, mid, Count; verify head/tail links and `Count`.
+- [x] Tests: add sequences to front/end; insert at 0, mid, Count; verify head/tail links and `Count`.
 
 **Step 4: Traversal & display**
-- [ ] `PrintForward()` from head→tail.
-- [ ] `PrintBackward()` from tail→head.
-- [ ] `ToArray()` for test assertions.
-- [ ] Tests: forward and backward produce same multiset, reversed order respectively.
+- [x] `PrintForward()` from head→tail.
+- [x] `PrintBackward()` from tail→head.
+- [x] `ToArray()` for test assertions.
+- [x] Tests: forward and backward produce same multiset, reversed order respectively.
 
 **Step 5: Search**
 - [ ] `Contains(T item)`.
