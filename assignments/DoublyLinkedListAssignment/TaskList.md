@@ -42,11 +42,11 @@
 - [x] Tests: hits and misses; duplicates return first index.
 
 **Step 6: Removal**
-- [ ] `RemoveFirst()` handles empty, single, multi.
-- [ ] `RemoveLast()` handles empty, single, multi.
-- [ ] `Remove(T item)` removes first occurrence; fix links; decrements `count`.
-- [ ] `RemoveAt(int index)` validates bounds; unlinks node.
-- [ ] Tests: remove on empty, single, head/mid/tail; verify head/tail integrity.
+- [x] `RemoveFirst()` handles empty, single, multi.
+- [x] `RemoveLast()` handles empty, single, multi.
+- [x] `Remove(T item)` removes first occurrence; fix links; decrements `count`.
+- [x] `RemoveAt(int index)` validates bounds; unlinks node.
+- [x] Tests: remove on empty, single, head/mid/tail; verify head/tail integrity.
 
 **Step 7: Advanced (bonus)**
 - [ ] `Reverse()` in-place by swapping `Next`/`Previous`; swap head/tail.

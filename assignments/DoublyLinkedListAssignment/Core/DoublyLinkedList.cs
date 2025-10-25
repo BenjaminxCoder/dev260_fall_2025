@@ -296,17 +296,21 @@ namespace Week4DoublyLinkedLists.Core
         /// <returns>The removed item</returns>
         public T RemoveFirst()
         {
-            // TODO: Step 6a - Implement remove first
-            // 1. Check if list is empty (throw exception if empty)
-            // 2. Store the data to return
-            // 3. Update head to head.Next
-            // 4. If new head is not null, set its Previous to null
-            // 5. If list becomes empty, set tail to null
-            // 6. Decrement count
-            // 7. Return the stored data
-            // 📖 See: https://www.geeksforgeeks.org/dsa/delete-a-node-in-a-doubly-linked-list/#deletion-at-the-beginning-in-doubly-linked-list
-            
-            throw new NotImplementedException("TODO: Step 6a - Implement RemoveFirst method");
+            if (head == null) throw new InvalidOperationException("List is empty");
+            var value = head.Data;
+
+            if (head == tail) // single node
+            {
+                head = tail = null;
+            }
+            else
+            {
+                head = head.Next;
+                head!.Previous = null;
+            }
+
+            count--;
+            return value;
         }
         
         /// <summary>
@@ -317,17 +321,21 @@ namespace Week4DoublyLinkedLists.Core
         /// <returns>The removed item</returns>
         public T RemoveLast()
         {
-            // TODO: Step 6b - Implement remove last
-            // 1. Check if list is empty (throw exception if empty)
-            // 2. Store the data to return
-            // 3. Update tail to tail.Previous
-            // 4. If new tail is not null, set its Next to null
-            // 5. If list becomes empty, set head to null
-            // 6. Decrement count
-            // 7. Return the stored data
-            // 📖 See: https://www.geeksforgeeks.org/dsa/delete-a-node-in-a-doubly-linked-list/#deletion-at-the-end-in-doubly-linked-list
-            
-            throw new NotImplementedException("TODO: Step 6b - Implement RemoveLast method");
+            if (tail == null) throw new InvalidOperationException("List is empty");
+            var value = tail.Data;
+
+            if (head == tail) // single node
+            {
+                head = tail = null;
+            }
+            else
+            {
+                tail = tail.Previous;
+                tail!.Next = null;
+            }
+
+            count--;
+            return value;
         }
         
         /// <summary>
@@ -339,14 +347,16 @@ namespace Week4DoublyLinkedLists.Core
         /// <returns>True if item was found and removed</returns>
         public bool Remove(T item)
         {
-            // TODO: Step 6c - Implement remove by value
-            // 1. Find the node containing the item (use Find method or traverse)
-            // 2. If not found, return false
-            // 3. If found, call RemoveNode helper method
-            // 4. Return true
-            // 📖 See: https://www.geeksforgeeks.org/dsa/delete-a-node-in-a-doubly-linked-list/
-            
-            throw new NotImplementedException("TODO: Step 6c - Implement Remove method");
+            var cmp = EqualityComparer<T>.Default;
+            for (var c = head; c != null; c = c.Next)
+            {
+                if (cmp.Equals(c.Data, item))
+                {
+                    RemoveNode(c);
+                    return true;
+                }
+            }
+            return false;
         }
         
         /// <summary>
@@ -358,19 +368,15 @@ namespace Week4DoublyLinkedLists.Core
         /// <returns>The removed item</returns>
         public T RemoveAt(int index)
         {
-            // TODO: Step 6d - Implement remove at index
-            // 1. Validate index range (0 to count-1)
-            // 2. Handle special cases:
-            //    - If index == 0: call RemoveFirst
-            //    - If index == count-1: call RemoveLast
-            // 3. For middle removal:
-            //    - Get the node at index (use GetNodeAt helper)
-            //    - Store data to return
-            //    - Call RemoveNode helper method
-            // 4. Return the stored data
-            // 📖 See: https://www.geeksforgeeks.org/dsa/delete-a-node-in-a-doubly-linked-list/#deletion-at-a-specific-position-in-doubly-linked-list
-            
-            throw new NotImplementedException("TODO: Step 6d - Implement RemoveAt method");
+            if (index < 0 || index >= count) throw new ArgumentOutOfRangeException(nameof(index));
+
+            if (index == 0) return RemoveFirst();
+            if (index == count - 1) return RemoveLast();
+
+            var node = GetNodeAt(index);
+            var value = node.Data;
+            RemoveNode(node);
+            return value;
         }
         
         #endregion
@@ -451,21 +457,25 @@ namespace Week4DoublyLinkedLists.Core
         /// <param name="node">Node to remove (must not be null)</param>
         private void RemoveNode(Node<T> node)
         {
-            // TODO: Helper Method - Implement node removal logic
-            // Handle all cases for removing a node:
-            // 1. Only node in list (node == head == tail)
-            // 2. First node (node == head, but not tail)
-            // 3. Last node (node == tail, but not head)
-            // 4. Middle node (node has both Previous and Next)
-            // 
-            // For each case, update the appropriate pointers:
-            // - Update Previous node's Next pointer
-            // - Update Next node's Previous pointer
-            // - Update head/tail if necessary
-            // - Decrement count
-            // 📖 See: https://www.geeksforgeeks.org/dsa/delete-a-node-in-a-doubly-linked-list/
-            
-            throw new NotImplementedException("TODO: Helper - Implement RemoveNode helper method");
+            if (node == null) throw new ArgumentNullException(nameof(node));
+
+            // Update previous link
+            if (node.Previous != null)
+                node.Previous.Next = node.Next;
+            else
+                head = node.Next; // node was head
+
+            // Update next link
+            if (node.Next != null)
+                node.Next.Previous = node.Previous;
+            else
+                tail = node.Previous; // node was tail
+
+            // Sever node links
+            node.Next = null;
+            node.Previous = null;
+
+            count--;
         }
         
         #endregion
