@@ -13,20 +13,20 @@
   `git commit -m "Week 3: scaffold DoublyLinkedList assignment"`
 
 ## 1) 📚 Learning Objectives
-- [ ] Review objectives and references in README.
-- [ ] Skim linked docs for generics, pointers (Prev/Next), and traversal patterns.
+- [x] Review objectives and references in README.
+- [x] Skim linked docs for generics, pointers (Prev/Next), and traversal patterns.
 
 ## 2) 📋 Part A — Core Implementation (60 pts)
 
 **Step 1–2: Node + List foundation**
-- [ ] Implement `Node<T>` with `Data`, `Next`, `Previous`.
-- [ ] Implement `DoublyLinkedList<T>` with fields `head`, `tail`, `count`; props `Count`, `IsEmpty`.
-- [ ] Smoke test: create empty list, assert `Count==0`, `IsEmpty==true`.
+- [x] Implement `Node<T>` with `Data`, `Next`, `Previous`.
+- [x] Implement `DoublyLinkedList<T>` with fields `head`, `tail`, `count`; props `Count`, `IsEmpty`.
+- [x] Smoke test: create empty list, assert `Count==0`, `IsEmpty==true`.
 
 **Step 3: Addition operations**
-- [ ] `AddFirst(T item)` handles empty and non-empty.
-- [ ] `AddLast(T item)` handles empty and non-empty. Add `Add(T)` → `AddLast`.
-- [ ] `Insert(int index, T item)` supports `0`, `Count`, and middle inserts. Validate indices.
+- [x] `AddFirst(T item)` handles empty and non-empty.
+- [x] `AddLast(T item)` handles empty and non-empty. Add `Add(T)` → `AddLast`.
+- [x] `Insert(int index, T item)` supports `0`, `Count`, and middle inserts. Validate indices.
 - [ ] Tests: add sequences to front/end; insert at 0, mid, Count; verify head/tail links and `Count`.
 
 **Step 4: Traversal & display**
