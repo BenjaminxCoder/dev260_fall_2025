@@ -1,0 +1,15 @@
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/bin/Debug/net9.0/StackLab
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/bin/Debug/net9.0/StackLab.deps.json
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/bin/Debug/net9.0/StackLab.runtimeconfig.json
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/bin/Debug/net9.0/StackLab.dll
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/bin/Debug/net9.0/StackLab.pdb
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/obj/Debug/net9.0/StackLab.GeneratedMSBuildEditorConfig.editorconfig
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/obj/Debug/net9.0/StackLab.AssemblyInfoInputs.cache
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/obj/Debug/net9.0/StackLab.AssemblyInfo.cs
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/obj/Debug/net9.0/StackLab.csproj.CoreCompileInputs.cache
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/obj/Debug/net9.0/StackLab.sourcelink.json
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/obj/Debug/net9.0/StackLab.dll
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/obj/Debug/net9.0/refint/StackLab.dll
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/obj/Debug/net9.0/StackLab.pdb
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/obj/Debug/net9.0/StackLab.genruntimeconfig.cache
+/Users/vlad_h04x/dev260_fall_2025/labs/lab_5_stacks/obj/Debug/net9.0/ref/StackLab.dll
