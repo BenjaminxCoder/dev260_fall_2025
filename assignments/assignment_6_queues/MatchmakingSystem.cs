@@ -13,6 +13,9 @@ namespace Assignment6
         private List<Player> allPlayers = new List<Player>();
         private List<Match> matchHistory = new List<Match>();
 
+        // Track when each user entered a queue for display purposes
+        private readonly Dictionary<string, DateTime> enqueuedAt = new(StringComparer.OrdinalIgnoreCase);
+
         // Statistics tracking
         private int totalMatches = 0;
         private DateTime systemStartTime = DateTime.Now;
@@ -85,10 +88,18 @@ namespace Assignment6
         /// </summary>
         public void AddToQueue(Player player, GameMode mode)
         {
-            // TODO: Implement this method
-            // Hint: Use switch statement on mode to select correct queue
-            // Don't forget to call player.JoinQueue()!
-            throw new NotImplementedException("AddToQueue method not yet implemented");
+            if (player is null) throw new ArgumentNullException(nameof(player));
+            if (player.SkillRating < 1 || player.SkillRating > 10)
+                throw new ArgumentOutOfRangeException(nameof(player.SkillRating), "Skill must be between 1 and 10.");
+
+            // Prevent duplicates across all queues
+            if (casualQueue.Contains(player) || rankedQueue.Contains(player) || quickPlayQueue.Contains(player))
+                throw new InvalidOperationException("Player is already in a queue.");
+
+            var queue = GetQueueByMode(mode);
+            queue.Enqueue(player);
+            player.JoinQueue();
+            enqueuedAt[player.Username] = DateTime.Now;
         }
 
         /// <summary>
@@ -104,10 +115,82 @@ namespace Assignment6
         /// </summary>
         public Match? TryCreateMatch(GameMode mode)
         {
-            // TODO: Implement this method
-            // Hint: Different logic needed for each mode
-            // Remember to check queue count first!
-            throw new NotImplementedException("TryCreateMatch method not yet implemented");
+            var queue = GetQueueByMode(mode);
+            if (queue.Count < 2) return null;
+
+            // Local helper: remove two specific players while preserving order of the rest
+            static void RemovePairFromQueue(Queue<Player> q, Player a, Player b)
+            {
+                var temp = q.ToList();
+                q.Clear();
+                foreach (var p in temp)
+                {
+                    if (!ReferenceEquals(p, a) && !ReferenceEquals(p, b))
+                        q.Enqueue(p);
+                }
+            }
+
+            if (mode == GameMode.Casual)
+            {
+                var p1 = queue.Dequeue();
+                var p2 = queue.Dequeue();
+                p1.LeaveQueue();
+                p2.LeaveQueue();
+                enqueuedAt.Remove(p1.Username);
+                enqueuedAt.Remove(p2.Username);
+                return new Match(p1, p2, mode);
+            }
+
+            // Ranked and QuickPlay use head-of-queue as anchor
+            var snapshot = queue.ToList();
+            var head = snapshot[0];
+
+            if (mode == GameMode.Ranked)
+            {
+                var idx = snapshot.FindIndex(1, other => CanMatchInRanked(head, other));
+                if (idx > 0)
+                {
+                    var mate = snapshot[idx];
+                    RemovePairFromQueue(queue, head, mate);
+                    head.LeaveQueue();
+                    mate.LeaveQueue();
+                    enqueuedAt.Remove(head.Username);
+                    enqueuedAt.Remove(mate.Username);
+                    return new Match(head, mate, mode);
+                }
+                return null;
+            }
+
+            // QuickPlay: prefer skill match first, then relax to FIFO if busy (>4)
+            if (mode == GameMode.QuickPlay)
+            {
+                var idx = snapshot.FindIndex(1, other => CanMatchInRanked(head, other));
+                if (idx > 0)
+                {
+                    var mate = snapshot[idx];
+                    RemovePairFromQueue(queue, head, mate);
+                    head.LeaveQueue();
+                    mate.LeaveQueue();
+                    enqueuedAt.Remove(head.Username);
+                    enqueuedAt.Remove(mate.Username);
+                    return new Match(head, mate, mode);
+                }
+
+                if (queue.Count > 4)
+                {
+                    var p1 = queue.Dequeue();
+                    var p2 = queue.Dequeue();
+                    p1.LeaveQueue();
+                    p2.LeaveQueue();
+                    enqueuedAt.Remove(p1.Username);
+                    enqueuedAt.Remove(p2.Username);
+                    return new Match(p1, p2, mode);
+                }
+
+                return null;
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -121,9 +204,16 @@ namespace Assignment6
         /// </summary>
         public void ProcessMatch(Match match)
         {
-            // TODO: Implement this method
-            // Hint: Very straightforward - simulate, record, display
-            throw new NotImplementedException("ProcessMatch method not yet implemented");
+            if (match is null) throw new ArgumentNullException(nameof(match));
+
+            // Simulate outcome and update system stats
+            match.SimulateOutcome();
+            matchHistory.Add(match);
+            totalMatches++;
+
+            var winnerName = match.Winner?.Username ?? "Unknown";
+            Console.WriteLine($"Match Result [{match.Mode}]: {match.Player1.Username} vs {match.Player2.Username} → Winner: {winnerName}");
+            Console.WriteLine($"   Skill Δ: {match.SkillDifference} | Time: {DateTime.Now:T}");
         }
 
         /// <summary>
@@ -139,9 +229,36 @@ namespace Assignment6
         /// </summary>
         public void DisplayQueueStatus()
         {
-            // TODO: Implement this method
-            // Hint: Loop through each queue and display formatted information
-            throw new NotImplementedException("DisplayQueueStatus method not yet implemented");
+            Console.WriteLine("\n🎮 Current Queue Status");
+            Console.WriteLine("=======================");
+
+            void PrintQueue(string title, Queue<Player> queue)
+            {
+                Console.WriteLine($"\n{title} Queue: {queue.Count} player(s)");
+
+                if (queue.Count == 0)
+                {
+                    Console.WriteLine("  — empty —");
+                    return;
+                }
+
+                int position = 1;
+                foreach (var player in queue)
+                {
+                    string timeInQueue = enqueuedAt.TryGetValue(player.Username, out var t)
+                        ? (DateTime.Now - t).ToString("mm\\:ss")
+                        : "n/a";
+
+                    Console.WriteLine($"  {position}. {player.Username} (Skill {player.SkillRating}) ⏱ {timeInQueue}");
+                    position++;
+                }
+            }
+
+            PrintQueue("Casual", casualQueue);
+            PrintQueue("Ranked", rankedQueue);
+            PrintQueue("QuickPlay", quickPlayQueue);
+
+            Console.WriteLine();
         }
 
         /// <summary>
@@ -155,9 +272,64 @@ namespace Assignment6
         /// </summary>
         public void DisplayPlayerStats(Player player)
         {
-            // TODO: Implement this method
-            // Hint: Combine player info with match history filtering
-            throw new NotImplementedException("DisplayPlayerStats method not yet implemented");
+            if (player is null) throw new ArgumentNullException(nameof(player));
+
+            Console.WriteLine(player.ToDetailedString());
+
+            // Determine queue status
+            string queueStatus;
+            GameMode? modeInQueue = null;
+
+            if (casualQueue.Contains(player))
+            {
+                queueStatus = "In Casual queue";
+                modeInQueue = GameMode.Casual;
+            }
+            else if (rankedQueue.Contains(player))
+            {
+                queueStatus = "In Ranked queue";
+                modeInQueue = GameMode.Ranked;
+            }
+            else if (quickPlayQueue.Contains(player))
+            {
+                queueStatus = "In QuickPlay queue";
+                modeInQueue = GameMode.QuickPlay;
+            }
+            else
+            {
+                queueStatus = "Not in any queue";
+            }
+
+            Console.WriteLine($"Status: {queueStatus}");
+
+            // Estimated wait time
+            if (modeInQueue.HasValue)
+            {
+                string eta = GetQueueEstimate(modeInQueue.Value);
+                Console.WriteLine($"Estimated Wait: {eta}");
+            }
+
+            // Recent matches (last 3)
+            var recentMatches = matchHistory
+                .Where(m => m.Player1 == player || m.Player2 == player)
+                .Reverse()
+                .Take(3)
+                .ToList();
+
+            if (recentMatches.Count == 0)
+            {
+                Console.WriteLine("Recent Matches: none\n");
+                return;
+            }
+
+            Console.WriteLine("Recent Matches:");
+            foreach (var match in recentMatches)
+            {
+                var opponent = match.Player1 == player ? match.Player2 : match.Player1;
+                string result = match.Winner == player ? "Win" : "Loss";
+                Console.WriteLine($"  [{match.Mode}] vs {opponent.Username} → {result} (Skill Δ {match.SkillDifference})");
+            }
+            Console.WriteLine();
         }
 
         /// <summary>
@@ -171,9 +343,42 @@ namespace Assignment6
         /// </summary>
         public string GetQueueEstimate(GameMode mode)
         {
-            // TODO: Implement this method
-            // Hint: Check queue counts and apply mode-specific logic
-            throw new NotImplementedException("GetQueueEstimate method not yet implemented");
+            var queue = GetQueueByMode(mode);
+            int count = queue.Count;
+
+            if (count == 0)
+                return "Long wait";
+
+            if (count >= 2)
+            {
+                if (mode == GameMode.Ranked && !HasRankedCompatiblePair(queue))
+                    return "Long wait";
+
+                return "No wait";
+            }
+
+            return mode == GameMode.Ranked ? "Long wait" : "Short wait";
+
+            static bool HasRankedCompatiblePair(Queue<Player> candidates)
+            {
+                Span<int> seenBySkill = stackalloc int[11];
+
+                foreach (var player in candidates)
+                {
+                    int minSkill = Math.Max(1, player.SkillRating - 2);
+                    int maxSkill = Math.Min(10, player.SkillRating + 2);
+
+                    for (int skill = minSkill; skill <= maxSkill; skill++)
+                    {
+                        if (seenBySkill[skill] > 0)
+                            return true;
+                    }
+
+                    seenBySkill[player.SkillRating]++;
+                }
+
+                return false;
+            }
         }
 
         // ============================================
@@ -212,6 +417,7 @@ namespace Assignment6
                 quickPlayQueue.Enqueue(p);
 
             player.LeaveQueue();
+            enqueuedAt.Remove(player.Username);
         }
 
         /// <summary>

@@ -1,0 +1,15 @@
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/obj/Debug/net9.0/Assignment6.GeneratedMSBuildEditorConfig.editorconfig
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/obj/Debug/net9.0/Assignment6.AssemblyInfoInputs.cache
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/obj/Debug/net9.0/Assignment6.AssemblyInfo.cs
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/obj/Debug/net9.0/Assignment6.csproj.CoreCompileInputs.cache
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/obj/Debug/net9.0/Assignment6.sourcelink.json
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/bin/Debug/net9.0/Assignment6
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/bin/Debug/net9.0/Assignment6.deps.json
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/bin/Debug/net9.0/Assignment6.runtimeconfig.json
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/bin/Debug/net9.0/Assignment6.dll
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/bin/Debug/net9.0/Assignment6.pdb
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/obj/Debug/net9.0/Assignment6.dll
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/obj/Debug/net9.0/refint/Assignment6.dll
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/obj/Debug/net9.0/Assignment6.pdb
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/obj/Debug/net9.0/Assignment6.genruntimeconfig.cache
+/Users/vlad_h04x/dev260_fall_2025/assignments/assignment_6_queues/obj/Debug/net9.0/ref/Assignment6.dll
