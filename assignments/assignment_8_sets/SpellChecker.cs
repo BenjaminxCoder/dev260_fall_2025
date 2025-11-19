@@ -79,12 +79,40 @@ namespace Assignment8
         /// </summary>
         public bool LoadDictionary(string filename)
         {
-            // TODO: Implement dictionary loading
-            // Hint: Use File.ReadAllLines() and handle FileNotFoundException
-            // Hint: Use string.Trim() and string.ToLowerInvariant() for normalization
-            // Hint: dictionary.Add() will automatically handle duplicates
+            // Clear any previous dictionary content
+            dictionary.Clear();
+
+            if (string.IsNullOrWhiteSpace(filename))
+                return false;
             
-            throw new NotImplementedException("LoadDictionary method not yet implemented");
+            try
+            {
+                // Read all lines from the dictionary file
+                var lines = File.ReadAllLines(filename);
+
+                foreach (var line in lines)
+                {
+                    string word = NormalizeWord(line);
+
+                    if (!string.IsNullOrEmpty(word))
+                    {
+                        dictionary.Add(word); // HashSet handles duplicated automatically
+                    }
+                }
+
+                // Return true only if we actually loaded words
+                return dictionary.Count > 0;
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Error: Dictionary file not found.");
+                return false;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error: Could not load dictionary.");
+                return false;
+            }
         }
         
         /// <summary>
@@ -107,13 +135,55 @@ namespace Assignment8
         /// </summary>
         public bool AnalyzeTextFile(string filename)
         {
-            // TODO: Implement text file analysis
-            // Hint: Use File.ReadAllText() to read entire file
-            // Hint: Split on char[] { ' ', '\t', '\n', '\r' } for simple tokenization
-            // Hint: Use Regex.Replace to remove punctuation: @"[^\w\s]" -> ""
-            // Hint: Filter out empty strings after processing
-            
-            throw new NotImplementedException("AnalyzeTextFile method not yet implemented");
+            // Clear previous analysis results
+            allWordsInText.Clear();
+            uniqueWordsInText.Clear();
+            correctlySpelledWords.Clear();
+            misspelledWords.Clear();
+            currentFileName = "";
+
+            if (string.IsNullOrWhiteSpace(filename))
+                return false;
+
+            try
+            {
+                // Read entire file content
+                string text = File.ReadAllText(filename);
+
+                // Simple tokenization: split on whitespace characters
+                char[] separators = { ' ', '\t', '\n', '\r' };
+                var rawTokens = text.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var token in rawTokens)
+                {
+                    // Normalize each token consistently
+                    string word = NormalizeWord(token);
+
+                    if (string.IsNullOrEmpty(word))
+                        continue;
+
+                    // Track all words (with duplicates)
+                    allWordsInText.Add(word);
+
+                    // Track unique words
+                    uniqueWordsInText.Add(word);
+                }
+
+                // Record which file we analyzed
+                currentFileName = Path.GetFileName(filename);
+
+                return true;
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Error: Text file not found.");
+                return false;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error: Could not analyze text file.");
+                return false;
+            }
         }
         
         /// <summary>
@@ -133,12 +203,26 @@ namespace Assignment8
         /// </summary>
         public void CategorizeWords()
         {
-            // TODO: Implement word categorization
-            // Hint: Clear both correctlySpelledWords and misspelledWords first
-            // Hint: Use a foreach loop over uniqueWordsInText
-            // Hint: Use dictionary.Contains(word) for fast lookup
-            
-            throw new NotImplementedException("CategorizeWords method not yet implemented");
+            // Defensive: if no text analyzed, nothing to do
+            if (!HasAnalyzedText)
+                return;
+
+            // Clear previous categorization
+            correctlySpelledWords.Clear();
+            misspelledWords.Clear();
+
+            // Partition unique words based on dictionary membership
+            foreach (var word in uniqueWordsInText)
+            {
+                if (dictionary.Contains(word))
+                {
+                    correctlySpelledWords.Add(word);
+                }
+                else
+                {
+                    misspelledWords.Add(word);
+                }
+            }
         }
         
         /// <summary>
@@ -159,12 +243,25 @@ namespace Assignment8
         /// </summary>
         public (bool inDictionary, bool inText, int occurrences) CheckWord(string word)
         {
-            // TODO: Implement individual word checking
-            // Hint: Normalize the word using the same method as other operations
-            // Hint: Use dictionary.Contains() and uniqueWordsInText.Contains()
-            // Hint: Use allWordsInText.Count(w => w.Equals(normalizedWord, StringComparison.OrdinalIgnoreCase))
-            
-            throw new NotImplementedException("CheckWord method not yet implemented");
+            // Normalize input the same way as everything else
+            string normalizedWord = NormalizeWord(word);
+
+            if (string.IsNullOrEmpty(normalizedWord))
+                return (false, false, 0);
+
+            bool inDictionary = dictionary.Contains(normalizedWord);
+
+            bool inText = uniqueWordsInText.Contains(normalizedWord);
+
+            int occurrences = 0;
+            if (inText)
+            {
+                // Count occurrences in allWordsInText
+                occurrences = allWordsInText
+                    .Count(w => w.Equals(normalizedWord, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return (inDictionary, inText, occurrences);
         }
         
         /// <summary>
@@ -184,12 +281,16 @@ namespace Assignment8
         /// </summary>
         public List<string> GetMisspelledWords(int maxResults = 50)
         {
-            // TODO: Implement misspelled words retrieval
-            // Hint: Convert misspelledWords to List, then use OrderBy()
-            // Hint: Use Take(maxResults) to limit results if needed
-            // Hint: Return empty list if no text has been analyzed
-            
-            throw new NotImplementedException("GetMisspelledWords method not yet implemented");
+            if (!HasAnalyzedText || misspelledWords.Count == 0)
+                return new List<string>();
+
+            if (maxResults <= 0)
+                maxResults = 50;
+
+            return misspelledWords
+                .OrderBy(w => w)       // alphabetical
+                .Take(maxResults)
+                .ToList();
         }
         
         /// <summary>
@@ -209,11 +310,16 @@ namespace Assignment8
         /// </summary>
         public List<string> GetUniqueWordsSample(int maxResults = 20)
         {
-            // TODO: Implement unique words sample retrieval
-            // Hint: Similar to GetMisspelledWords but use uniqueWordsInText
-            // Hint: Consider showing a mix of correct and misspelled words
-            
-            throw new NotImplementedException("GetUniqueWordsSample method not yet implemented");
+            if (!HasAnalyzedText || uniqueWordsInText.Count == 0)
+                return new List<string>();
+
+            if (maxResults <= 0)
+                maxResults = 20;
+
+            return uniqueWordsInText
+                .OrderBy(w => w)
+                .Take(maxResults)
+                .ToList();
         }
         
         // Helper method for consistent word normalization
