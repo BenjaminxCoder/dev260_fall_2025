@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LoopsAndConditionalsLab")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+89d30d1a8f1dbf0ae6e40e6e359880e2e9d84ee4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7a680f45b68cb9f81e305cb21b1afbae7e6daacc")]
 [assembly: System.Reflection.AssemblyProductAttribute("LoopsAndConditionalsLab")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LoopsAndConditionalsLab")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
