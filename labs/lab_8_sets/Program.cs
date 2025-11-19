@@ -120,11 +120,21 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
-            // TODO: Implement this method
-            // Hint: Create HashSet with StringComparer.OrdinalIgnoreCase
-            // Compare original count with HashSet count to find duplicates removed
+            if (emailList == null || emailList.Count == 0)
+            {
+                return 0;
+            }
 
-            throw new NotImplementedException("DeduplicateEmails method needs implementation");
+            // Create a case-insensitive HashSet to automatically remove duplicates
+            var deduped = new HashSet<string>(emailList, StringComparer.OrdinalIgnoreCase);
+
+            // Calculate how many duplicates were removed
+            int duplicatesRemoved = emailList.Count - deduped.Count;
+
+            // Store the deduplicated set in the lab-level tracking collection
+            uniqueEmails = deduped;
+
+            return duplicatesRemoved;
         }
 
         /// <summary>
@@ -144,11 +154,19 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
-            // TODO: Implement this method
-            // Hint: Check if user exists in userPermissions dictionary first
-            // Then use Contains() on their permission set
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(permission))
+            {
+                return false;
+            }
 
-            throw new NotImplementedException("HasPermission method needs implementation");
+            // Defensive: check if the user exists in the permission dictionary
+            if (!userPermissions.TryGetValue(userId, out var permissions) || permissions == null)
+            {
+                return false;
+            }
+
+            // O(1) membership check in the user's permission set
+            return permissions.Contains(permission);
         }
 
         /// <summary>
@@ -168,11 +186,27 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
-            // TODO: Implement this method
-            // Hint: Get current permission count, use UnionWith(), compare counts
-            // Create new HashSet for user if they don't exist
+            if (string.IsNullOrWhiteSpace(userId) || newPermissions == null || newPermissions.Count == 0)
+            {
+                return 0;
+            }
 
-            throw new NotImplementedException("AddPermissions method needs implementation");
+            // Ensure the user has a permission set
+            if (!userPermissions.TryGetValue(userId, out var permissions) || permissions == null)
+            {
+                permissions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                userPermissions[userId] = permissions;
+            }
+
+            int beforeCount = permissions.Count;
+
+            // UnionWith merges in new permissions without creating duplicates
+            permissions.UnionWith(newPermissions);
+
+            int afterCount = permissions.Count;
+            int newlyAdded = afterCount - beforeCount;
+
+            return newlyAdded;
         }
 
         /// <summary>
@@ -192,11 +226,25 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
-            // TODO: Implement this method
-            // Hint: Use ExceptWith() to find permissions in required but not in user's set
-            // Return new HashSet with missing permissions
+            // If no required permissions are specified, there is nothing missing
+            if (requiredPermissions == null || requiredPermissions.Count == 0)
+            {
+                return new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            }
 
-            throw new NotImplementedException("GetMissingPermissions method needs implementation");
+            // Start with a copy of the required permissions (case-insensitive)
+            var missing = new HashSet<string>(requiredPermissions, StringComparer.OrdinalIgnoreCase);
+
+            // If the user does not exist or has no permissions, all required remain missing
+            if (!userPermissions.TryGetValue(userId, out var permissions) || permissions == null || permissions.Count == 0)
+            {
+                return missing;
+            }
+
+            // Remove any permissions the user already has
+            missing.ExceptWith(permissions);
+
+            return missing;
         }
 
         /// <summary>
@@ -215,10 +263,10 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
-            // TODO: Implement this method
-            // Hint: Create copy of enrolledNow, then use ExceptWith(enrolledLastQuarter)
-
-            throw new NotImplementedException("FindNewStudents method needs implementation");
+            // Students enrolled now but not last quarter
+            var result = new HashSet<string>(enrolledNow);
+            result.ExceptWith(enrolledLastQuarter);
+            return result;
         }
 
         /// <summary>
@@ -237,10 +285,10 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
-            // TODO: Implement this method
-            // Hint: Create copy of enrolledLastQuarter, then use ExceptWith(enrolledNow)
-
-            throw new NotImplementedException("FindDroppedStudents method needs implementation");
+            // Students who were enrolled last quarter but not this quarter
+            var result = new HashSet<string>(enrolledLastQuarter);
+            result.ExceptWith(enrolledNow);
+            return result;
         }
 
         /// <summary>
@@ -259,10 +307,10 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
-            // TODO: Implement this method
-            // Hint: Create copy of enrolledNow, then use IntersectWith(enrolledLastQuarter)
-
-            throw new NotImplementedException("FindContinuingStudents method needs implementation");
+            // Students present in both quarters
+            var result = new HashSet<string>(enrolledNow);
+            result.IntersectWith(enrolledLastQuarter);
+            return result;
         }
 
         /// <summary>
@@ -282,11 +330,17 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
-            // TODO: Implement this method
-            // Hint: Use FindContinuingStudents() method you implemented
-            // Calculate: (continuing count / last quarter count) * 100
+            // Avoid division by zero if there were no students last quarter
+            if (enrolledLastQuarter == null || enrolledLastQuarter.Count == 0)
+            {
+                return 0.0;
+            }
 
-            throw new NotImplementedException("CalculateRetentionRate method needs implementation");
+            // Continuing students are the intersection of the two quarters
+            var continuing = FindContinuingStudents();
+
+            double retention = (double)continuing.Count / enrolledLastQuarter.Count * 100.0;
+            return retention;
         }
 
         public void RunInteractiveMenu()
