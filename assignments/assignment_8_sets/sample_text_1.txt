@@ -1,0 +1,9 @@
+The quick brown fox jumps over the lazy dog. This is a classic sentence that contains many common words and some interesting patterns for spell checking.
+
+However, there are also some misspeled words in this text that the spell checker should identify. For instance, "misspeled" should be "misspelled" and there might be other erors as well.
+
+The spell checker should be able to analize this text and provide useful statistics about word usage, uniqueness, and spelling accuracy. It should demonstarte the power of HashSet operations for fast lookups and automatic duplicate removal.
+
+Some words appear multipel times in this text, which will help test the difference between total word count and unique word count. The HashSet data structure is particulary useful for this type of text analysis becuase it provides O(1) lookup performance.
+
+This sample text contains both correctly spelled words and intentional spelling mistakes to fully excersize the spell checking functionality. Students will learn how HashSet operations can efficiently categorize words into correct and incorrect groups.
