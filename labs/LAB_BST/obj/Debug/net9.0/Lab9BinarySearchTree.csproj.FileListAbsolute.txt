@@ -1,0 +1,15 @@
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/bin/Debug/net9.0/BinarySearchTreeLab
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/bin/Debug/net9.0/BinarySearchTreeLab.deps.json
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/bin/Debug/net9.0/BinarySearchTreeLab.runtimeconfig.json
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/bin/Debug/net9.0/BinarySearchTreeLab.dll
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/bin/Debug/net9.0/BinarySearchTreeLab.pdb
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/obj/Debug/net9.0/Lab9BinarySearchTree.GeneratedMSBuildEditorConfig.editorconfig
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/obj/Debug/net9.0/Lab9BinarySearchTree.AssemblyInfoInputs.cache
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/obj/Debug/net9.0/Lab9BinarySearchTree.AssemblyInfo.cs
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/obj/Debug/net9.0/Lab9BinarySearchTree.csproj.CoreCompileInputs.cache
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/obj/Debug/net9.0/Lab9BinarySearchTree.sourcelink.json
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/obj/Debug/net9.0/BinarySearchTreeLab.dll
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/obj/Debug/net9.0/refint/BinarySearchTreeLab.dll
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/obj/Debug/net9.0/BinarySearchTreeLab.pdb
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/obj/Debug/net9.0/Lab9BinarySearchTree.genruntimeconfig.cache
+/Users/vlad_h04x/dev260_fall_2025/labs/LAB_BST/obj/Debug/net9.0/ref/BinarySearchTreeLab.dll
