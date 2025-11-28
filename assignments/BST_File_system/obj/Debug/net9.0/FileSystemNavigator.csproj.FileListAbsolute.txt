@@ -1,0 +1,15 @@
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/bin/Debug/net9.0/FileSystemNavigator
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/bin/Debug/net9.0/FileSystemNavigator.deps.json
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/bin/Debug/net9.0/FileSystemNavigator.runtimeconfig.json
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/bin/Debug/net9.0/FileSystemNavigator.dll
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/bin/Debug/net9.0/FileSystemNavigator.pdb
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/obj/Debug/net9.0/FileSystemNavigator.GeneratedMSBuildEditorConfig.editorconfig
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/obj/Debug/net9.0/FileSystemNavigator.AssemblyInfoInputs.cache
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/obj/Debug/net9.0/FileSystemNavigator.AssemblyInfo.cs
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/obj/Debug/net9.0/FileSystemNavigator.csproj.CoreCompileInputs.cache
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/obj/Debug/net9.0/FileSystemNavigator.sourcelink.json
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/obj/Debug/net9.0/FileSystemNavigator.dll
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/obj/Debug/net9.0/refint/FileSystemNavigator.dll
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/obj/Debug/net9.0/FileSystemNavigator.pdb
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/obj/Debug/net9.0/FileSystemNavigator.genruntimeconfig.cache
+/Users/vlad_h04x/dev260_fall_2025/assignments/BST_File_system/obj/Debug/net9.0/ref/FileSystemNavigator.dll
