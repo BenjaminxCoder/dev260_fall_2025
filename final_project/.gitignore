@@ -1,0 +1,87 @@
+###############################
+# .NET / C# build artifacts
+###############################
+bin/
+obj/
+out/
+*.dll
+*.exe
+*.app
+*.pdb
+*.cache
+*.log
+
+# Build output folders (Debug/Release/etc)
+*/bin/
+*/obj/
+**/bin/
+**/obj/
+
+
+###############################
+# macOS system files
+###############################
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+
+###############################
+# VS Code workspace files
+###############################
+.vscode/
+.vscode-test/
+*.code-workspace
+
+
+###############################
+# User-specific settings
+###############################
+*.user
+*.userprefs
+*.suo
+
+
+###############################
+# Python bytecode / runtime cruft
+###############################
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pytest_cache/
+*.ruff_cache/
+*.mypy_cache/
+*.egg-info/
+*.eggs/
+build/
+dist/
+
+
+###############################
+# JSON data files (BUT ALLOW SEED FILE)
+###############################
+data/*.json
+!data/transactions.json
+
+
+###############################
+# Logs / temp
+###############################
+*.log
+logs/
+temp/
+tmp/
+
+
+###############################
+# OS / Editor backups
+###############################
+*~
+*.swp
+*.swo
+*.tmp
+*.bak

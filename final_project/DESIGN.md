@@ -1,180 +1,140 @@
-# Project Design & Rationale
+# Project Design & Rationale — CashFlow Coach
 
-**Instructions:** Replace prompts with your content. Be specific and concise. If something doesn't apply, write "N/A" and explain briefly.
+A single-user console budgeting app built in C# (.NET) with an optional Python assistant for category suggestions. Core focus: correct, justified data-structure use; clean UX; measurable performance characteristics.
 
 ---
 
 ## Data Model & Entities
 
-**Core entities:**  
-_List your main entities with key fields, identifiers, and relationships (1–2 lines each)._
+**Core entities**
 
-**Your Answer:**
+**Transaction**
+- **Fields:** `Id: Guid`, `Date: DateOnly`, `Amount: decimal`, `Description: string`, `Category: string`, `IsIncome: bool`
+- **Identifiers:** `Id` (GUID) is the stable primary key
+- **Relationships:** None (flat collection); indexes provide alternate views
 
-**Entity A:**
+**Optional (future): Bill/Goal**: not implemented in this slice; can be added behind separate indexes (e.g., `PriorityQueue` for upcoming bills).
 
-- Name:
-- Key fields:
-- Identifiers:
-- Relationships:
-
-**Entity B (if applicable):**
-
-- Name:
-- Key fields:
-- Identifiers:
-- Relationships:
-
-**Identifiers (keys) and why they're chosen:**  
-_Explain your choice of keys (e.g., string Id, composite key, case-insensitive, etc.)._
-
-**Your Answer:**
+**Identifiers (keys) and why they’re chosen**
+- **GUID** avoids collisions across sessions and seed data; stable even if other fields change.
+- **Category strings** are not used as entity keys (users can rename categories; duplicates are valid). Category is handled through a secondary index.
 
 ---
 
 ## Data Structures — Choices & Justification
 
-_List only the meaningful data structures you chose. For each, state the purpose, the role it plays in your app, why it fits, and alternatives considered._
-
 ### Structure #1
+**Chosen Data Structure:** `Dictionary<Guid, Transaction>` (primary store)
 
-**Chosen Data Structure:**  
-_Name the data structure (e.g., Dictionary<string, Customer>)._
+**Purpose / Role in App:**
+- Source of truth for all CRUD operations (Add, Update, Delete, Get by Id).
 
-**Your Answer:**
+**Why it fits:**
+- Hash map gives **O(1) average** for Get/Insert/Update/Delete by `Id`.
+- Memory overhead is acceptable for the target scale (≤ ~10k items).
+- Keeps modeling simple; other views are derived by indexes.
 
-**Purpose / Role in App:**  
-_What user action or feature does it power?_
-
-**Your Answer:**
-
-**Why it fits:**  
-_Explain access patterns, typical size, performance/Big-O, memory, simplicity._
-
-**Your Answer:**
-
-**Alternatives considered:**  
-_List alternatives (e.g., List<T>, SortedDictionary, custom tree) and why you didn't choose them._
-
-**Your Answer:**
+**Alternatives considered:**
+- `List<Transaction>`: Poor random access and deletes by `Id` (O(n)).
+- `ConcurrentDictionary` not required (single-user, single-threaded console).
 
 ---
 
 ### Structure #2
+**Chosen Data Structure:** `SortedDictionary<DateOnly, List<Guid>>` (time index)
 
-**Chosen Data Structure:**  
-_Name the data structure._
+**Purpose / Role in App:**
+- Enables **ordered listing** and **date-range queries** quickly.
 
-**Your Answer:**
+**Why it fits:**
+- Tree map keeps keys sorted; each date maps to its transaction Ids.
+- Range queries via `GetViewBetween(start, end)` are **O(log n + k)** where *k* is items returned.
+- Insertion cost per Add is **O(log n)** to find/insert the date bucket, then **O(1)** to append the Id.
 
-**Purpose / Role in App:**  
-_What user action or feature does it power?_
-
-**Your Answer:**
-
-**Why it fits:**  
-_Explain access patterns, typical size, performance/Big-O, memory, simplicity._
-
-**Your Answer:**
-
-**Alternatives considered:**  
-_List alternatives and why you didn't choose them._
-
-**Your Answer:**
+**Alternatives considered:**
+- `List<Transaction>` sorted on demand: easy but requires resorting or full scan for ranges.
+- `SortedList<DateOnly, List<Guid>>`: similar; `SortedDictionary` chosen for familiar API and `GetViewBetween` support.
 
 ---
 
 ### Structure #3
+**Chosen Data Structure:** `Dictionary<string, HashSet<Guid>>` with `StringComparer.OrdinalIgnoreCase` (category index)
 
-**Chosen Data Structure:**  
-_Name the data structure._
+**Purpose / Role in App:**
+- Fast **category lookups** and filtering (Search by category), insensitive to letter case.
 
-**Your Answer:**
+**Why it fits:**
+- Hash map of normalized category → set of transaction Ids; **O(1)** average set lookup; iteration is **O(k)**.
+- `HashSet<Guid>` prevents duplicates if the same transaction is re-indexed.
 
-**Purpose / Role in App:**  
-_What user action or feature does it power?_
-
-**Your Answer:**
-
-**Why it fits:**  
-_Explain access patterns, typical size, performance/Big-O, memory, simplicity._
-
-**Your Answer:**
-
-**Alternatives considered:**  
-_List alternatives and why you didn't choose them._
-
-**Your Answer:**
+**Alternatives considered:**
+- `Lookup<string, Guid>`: read-only; doesn’t fit Update/Delete flows.
+- `SortedDictionary<string, HashSet<Guid>>`: ordering not needed on category keys.
 
 ---
 
-### Additional Structures (if applicable)
-
-_Add more sections if you used additional structures like Queue for workflows, Stack for undo, HashSet for uniqueness, Graph for relationships, BST/SortedDictionary for ordered views, etc._
-
-**Your Answer:**
+### Additional Structures (future-facing)
+- **`PriorityQueue<Bill, DateOnly>`** for upcoming-bills view (not implemented in this slice).
+- **`HashSet<(DateOnly, decimal, string)>`** to guard against exact-duplicate entries (optional enhancement).
 
 ---
 
 ## Comparers & String Handling
 
-**Comparer choices:**  
-_Explain what comparers you used and why (e.g., StringComparer.OrdinalIgnoreCase for keys)._
+**Comparer choices**
+- **Categories:** `StringComparer.OrdinalIgnoreCase` to avoid case-fragmentation (e.g., "Groceries" vs "groceries").
+- **Description sorting:** `StringComparer.Ordinal` for deterministic UI ordering after date.
 
-**Your Answer:**
+**Normalization rules**
+- `Category` normalized to `"(uncategorized)"` when blank or whitespace.
+- All user inputs are trimmed; dates validated via exact `yyyy-MM-dd`.
 
-**For keys:**
-
-**For display sorting (if different):**
-
-**Normalization rules:**  
-_Describe how you normalize strings (trim whitespace, collapse duplicates, canonicalize casing)._
-
-**Your Answer:**
-
-**Bad key examples avoided:**  
-_List examples of bad key choices and why you avoided them (e.g., non-unique names, culture-varying text, trailing spaces, substrings that can change)._
+**Bad key examples avoided**
+- User-facing text (names, descriptions) as keys → unstable and not unique.
+- Culture-sensitive comparisons for internal keys → inconsistent grouping.
+- Floating-point amounts as keys → precision issues; we use `decimal` for currency.
 
 ---
 
 ## Performance Considerations
 
-**Expected data scale:**  
-_Describe the expected size of your data (e.g., 100 items, 10,000 items)._
+**Expected data scale**
+- Bronze/Silver scope: ~100 to ~5,000 transactions per user.
 
-**Your Answer:**
+**Performance bottlenecks identified & mitigations**
+- **Listing and range queries:** mitigated by the time index; no full scans.
+- **Category filter:** direct set access; avoid scanning all transactions.
+- **Update/Delete:** require index maintenance (remove from old buckets, add to new), implemented in `Update()` and `Delete()`.
+- **Persistence:** JSON read/write is linear in `n`; acceptable at this scale.
 
-**Performance bottlenecks identified:**  
-_List any potential performance issues and how you addressed them._
+**Big-O analysis of core operations**
+- **Add:** `Dictionary` put **O(1)** avg + time-index insert **O(log n)** + category-index set add **O(1)**.
+- **Search (by Id):** **O(1)** avg.
+- **Search (by date range):** **O(log n + k)** via `GetViewBetween` + iteration of `k` results.
+- **Search (by category):** **O(1 + k)** (hash lookup + iterate set).
+- **List (ordered):** iterate `n` already-ordered by date buckets; effectively **O(n)** to print.
+- **Update:** **O(1)** map write + up to **O(log n)** reindex on date + **O(1)** category set move.
+- **Delete:** **O(1)** map remove + **O(1)** set remove + **O(1)**/bucket cleanup; time bucket removal is **O(1)** once empty.
 
-**Your Answer:**
-
-**Big-O analysis of core operations:**  
-_Provide time complexity for your main operations (Add, Search, List, Update, Delete)._
-
-**Your Answer:**
-
-- Add:
-- Search:
-- List:
-- Update:
-- Delete:
+Empirical notes to collect (finalize after testing):
+- With ~100 vs ~5,000 items: measure wall time for Add 1000x, date-range of a typical month, and category search; record observed trends against the above Big-O.
 
 ---
 
 ## Design Tradeoffs & Decisions
 
-**Key design decisions:**  
-_Explain major design choices and why you made them._
+**Key design decisions**
+- **Indexes first-class:** Treat time & category indexes as maintained data, not ad-hoc queries. Guarantees predictable latency.
+- **Flat entity model:** Keeps MVP simple; enables focused DS discussion and clean CRUD paths.
+- **Optional Python path:** C# remains ≥80%. Python runs out-of-proc with a strict JSON contract and graceful failure.
 
-**Your Answer:**
+**Tradeoffs made**
+- **Memory vs speed:** Duplicating Ids in indexes increases memory but removes full scans; chosen for user experience.
+- **Tree vs array for time:** `SortedDictionary` gives direct range views; insertion is `O(log n)` but worth it for fast queries.
+- **String categories vs enum:** Strings allow user-defined categories; comparer normalization required to prevent drift.
 
-**Tradeoffs made:**  
-_Describe any tradeoffs between simplicity vs performance, memory vs speed, etc._
-
-**Your Answer:**
-
-**What you would do differently with more time:**  
-_Reflect on what you might change or improve._
-
-**Your Answer:**
+**What I would do differently with more time**
+- **Persistence:** Move to append-only log or SQLite for robustness and crash safety.
+- **Undo/redo:** Add a `Stack`-based command history for reversible edits.
+- **Learning layer:** Persist user corrections to a small JSON file and feed back into the Python scorer as weights.
+- **Bills/Goals:** Add `PriorityQueue` for next-due bills and a simple budget/goal variance report.
